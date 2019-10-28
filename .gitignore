@@ -1,0 +1,59 @@
+# Ignore everything, except listed files
+*
+
+# Global files
+!.gitignore
+!README.md
+!LICENSE
+
+# Projects files
+!
+!build.gradle
+!settings.gradle
+
+# Gradle files
+!gradle.properties
+!gradlew.bat
+!gradlew
+!gradle/
+!gradle/wrapper/
+!gradle/wrapper/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!app/
+!app/build.gradle
+!app/proguard-rules.pro
+
+# Sources files
+!app/src/
+!app/src/main/
+!app/src/main/AndroidManifest.xml
+!app/src/main/java/
+!app/src/main/java/com/
+!app/src/main/java/com/amos/
+!app/src/main/java/com/amos/MainActivity.java
+
+#Resources files
+!app/src/main/res/
+!app/src/main/res/drawable/
+!app/src/main/res/drawable/ic_launcher_background.xml
+!app/src/main/res/drawable-v24/
+!app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+!app/src/main/res/mipmap-anydpi-v26/
+!app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+!app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+!app/src/main/res/mipmap-hdpi/
+!app/src/main/res/mipmap-hdpi/ic_launcher.png
+!app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+!app/src/main/res/mipmap-mdpi/
+!app/src/main/res/mipmap-mdpi/ic_launcher.png
+!app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+!app/src/main/res/mipmap-xhdpi/
+!app/src/main/res/mipmap-xhdpi/ic_launcher.png
+!app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+!app/src/main/res/mipmap-xxhdpi/
+!app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+!app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+!app/src/main/res/mipmap-xxxhdpi/
+!app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+!app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
