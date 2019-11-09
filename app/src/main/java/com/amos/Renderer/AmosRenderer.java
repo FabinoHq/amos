@@ -58,6 +58,7 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     //  param gl10 : OpenGL ES 1.0 reference                                  //
     //  param config : OpenGL ES configuration                                //
     ////////////////////////////////////////////////////////////////////////////
+    @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig config)
     {
         // Init OpenGL
@@ -70,6 +71,7 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     //  param width : Width of the rendering surface                          //
     //  param height : Height of the rendering surface                        //
     ////////////////////////////////////////////////////////////////////////////
+    @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height)
     {
         // Set OpenGL viewport
@@ -80,6 +82,7 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     //  onDrawFrame : Renderer main loop callback                             //
     //  param gl10 : OpenGL ES 1.0 reference                                  //
     ////////////////////////////////////////////////////////////////////////////
+    @Override
     public void onDrawFrame(GL10 gl10)
     {
         // Clear frame
