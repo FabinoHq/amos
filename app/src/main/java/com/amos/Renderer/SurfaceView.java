@@ -56,5 +56,15 @@ public class SurfaceView extends GLSurfaceView
     public SurfaceView(Context context)
     {
         super(context);
+
+        // Set OpenGL ES version 2.0
+        setEGLContextClientVersion(2);
+
+        // Create renderer
+        renderer = new AmosRenderer();
+        setRenderer(renderer);
     }
+
+    // Renderer
+    private final AmosRenderer renderer;
 }

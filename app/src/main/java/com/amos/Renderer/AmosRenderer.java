@@ -37,7 +37,7 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     Renderer.java : AMOS Rendering management                              //
+//     AmosRenderer.java : AMOS Rendering management                          //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Renderer;
 
@@ -45,12 +45,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
+import android.opengl.GLES20;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Renderer class definition                                                 //
+//  AmosRenderer class definition                                             //
 ////////////////////////////////////////////////////////////////////////////////
-public class Renderer implements GLSurfaceView.Renderer
+public class AmosRenderer implements GLSurfaceView.Renderer
 {
     ////////////////////////////////////////////////////////////////////////////
     //  onSurfaceCreated : Renderer entry point                               //
@@ -59,7 +60,8 @@ public class Renderer implements GLSurfaceView.Renderer
     ////////////////////////////////////////////////////////////////////////////
     public void onSurfaceCreated(GL10 gl10, EGLConfig config)
     {
-
+        // Init OpenGL
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -70,7 +72,8 @@ public class Renderer implements GLSurfaceView.Renderer
     ////////////////////////////////////////////////////////////////////////////
     public void onSurfaceChanged(GL10 gl10, int width, int height)
     {
-
+        // Set OpenGL viewport
+        GLES20.glViewport(0, 0, width, height);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -79,6 +82,7 @@ public class Renderer implements GLSurfaceView.Renderer
     ////////////////////////////////////////////////////////////////////////////
     public void onDrawFrame(GL10 gl10)
     {
-
+        // Clear frame
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
     }
 }
