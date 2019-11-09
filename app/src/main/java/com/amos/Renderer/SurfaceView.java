@@ -37,31 +37,24 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     MainActivity.java : Main program entry point                           //
+//     SurfaceView.java : Global SurfaceView for Rendering                    //
 ////////////////////////////////////////////////////////////////////////////////
-package com.amos;
+package com.amos.Renderer;
 
-import android.os.Bundle;
-import android.app.Activity;
-
-import com.amos.Renderer.SurfaceView;
+import android.content.Context;
+import android.opengl.GLSurfaceView;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  MainActivity class definition                                             //
+//  SurfaceView class definition                                              //
 ////////////////////////////////////////////////////////////////////////////////
-public class MainActivity extends Activity
+public class SurfaceView extends GLSurfaceView
 {
     ////////////////////////////////////////////////////////////////////////////
-    //  onCreate : Application entry point                                    //
+    //  SurfaceView default constructor                                       //
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public SurfaceView(Context context)
     {
-        super.onCreate(savedInstanceState);
-
-        // Create surface view for rendering
-        SurfaceView surfaceView = new SurfaceView(this);
-        setContentView(surfaceView);
+        super(context);
     }
 }

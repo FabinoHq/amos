@@ -20,6 +20,14 @@
 # Sources files
 !app/src/main/AndroidManifest.xml
 !app/src/main/java/com/amos/MainActivity.java
+!app/
+!app/src/
+!app/src/main/
+!app/src/main/java/
+!app/src/main/java/com/
+!app/src/main/java/com/amos/
+!app/src/main/java/com/amos/Renderer/
+!app/src/main/java/com/amos/Renderer/SurfaceView.java
 
 #Resources files
 !app/src/main/res/drawable/ic_launcher_background.xml
