@@ -42,7 +42,9 @@
 package com.amos;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
+import android.view.View;
 
 import com.amos.Renderer.SurfaceView;
 
@@ -63,5 +65,54 @@ public class MainActivity extends Activity
         // Create surface view for rendering
         SurfaceView surfaceView = new SurfaceView(this);
         setContentView(surfaceView);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  onWindowFocusChanged : Application gain or lost focus                 //
+    //  param hasFocus : True if the application has focus, false otherwise   //
+    ////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus)
+        {
+            setFullscreen();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  setFullscreen : Set application fullscreen mode on                    //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setFullscreen()
+    {
+        View view = getWindow().getDecorView();
+        final int originalWidth = view.getWidth();
+        final int originalHeight = view.getHeight();
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                View currentView = getWindow().getDecorView();
+                currentView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_FULLSCREEN
+                );
+
+                if ((currentView.getWidth() == originalWidth) &&
+                    (currentView.getHeight() == originalHeight))
+                {
+                    handler.postDelayed(this, 100);
+                }
+            }
+        };
+        handler.postDelayed(runnable, 100);
     }
 }
