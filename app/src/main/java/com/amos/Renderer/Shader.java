@@ -197,6 +197,28 @@ public class Shader
         return true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //  bind : Bind shader to renderer                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void bind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glUseProgram(m_shaderProgram);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  unbind : Unbind shader                                                //
+    ////////////////////////////////////////////////////////////////////////////
+    public void unbind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glUseProgram(0);
+        }
+    }
+
 
     // Shader loaded status
     private boolean m_loaded;
