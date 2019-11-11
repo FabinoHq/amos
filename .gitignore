@@ -26,6 +26,8 @@
 !app/src/main/java/
 !app/src/main/java/com/
 !app/src/main/java/com/amos/
+!app/src/main/java/com/amos/Math/
+!app/src/main/java/com/amos/Math/Math.java
 !app/src/main/java/com/amos/Renderer/
 !app/src/main/java/com/amos/Renderer/SurfaceView.java
 !app/src/main/java/com/amos/Renderer/AmosRenderer.java
