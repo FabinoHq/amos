@@ -86,6 +86,7 @@ public class MainActivity extends Activity
     ////////////////////////////////////////////////////////////////////////////
     public void setFullscreen()
     {
+        // Get original view size
         View view = getWindow().getDecorView();
         final int originalWidth = view.getWidth();
         final int originalHeight = view.getHeight();
@@ -96,6 +97,7 @@ public class MainActivity extends Activity
             @Override
             public void run()
             {
+                // Set fullscreen mode on
                 View currentView = getWindow().getDecorView();
                 currentView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
@@ -106,9 +108,11 @@ public class MainActivity extends Activity
                     View.SYSTEM_UI_FLAG_FULLSCREEN
                 );
 
+                // Check current view size
                 if ((currentView.getWidth() == originalWidth) &&
                     (currentView.getHeight() == originalHeight))
                 {
+                    // Callback this function until fullscreen is on
                     handler.postDelayed(this, 100);
                 }
             }
