@@ -37,7 +37,7 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     AmosRenderer.java : AMOS Rendering management                          //
+//     Renderer/AmosRenderer.java : AMOS Rendering management                 //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Renderer;
 

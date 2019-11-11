@@ -37,7 +37,7 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     SurfaceView.java : Global SurfaceView for Rendering                    //
+//     Renderer/SurfaceView.java : Global SurfaceView for Rendering           //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Renderer;
 

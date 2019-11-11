@@ -37,15 +37,17 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     Math/Matrix4x4.java : 4x4 Matrix management                            //
+//     Renderer/VertexBuffer.java : VBO (Vertex Buffer Object) management     //
 ////////////////////////////////////////////////////////////////////////////////
-package com.amos.Math;
+package com.amos.Renderer;
+
+import android.opengl.GLES20;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Matrix4x4 class definition                                                //
+//  VertexBuffer class definition                                             //
 ////////////////////////////////////////////////////////////////////////////////
-public class Matrix4x4
+public class VertexBuffer
 {
 
 }

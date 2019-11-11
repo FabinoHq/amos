@@ -37,7 +37,7 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     Shader.java : Shader management                                        //
+//     Renderer/Shader.java : Shader management                               //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Renderer;
 

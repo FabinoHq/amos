@@ -37,7 +37,7 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     Math.java : Generic math functions                                     //
+//     Math/Math.java : Generic math functions                                //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Math;
 
