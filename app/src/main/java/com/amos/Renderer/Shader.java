@@ -41,6 +41,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Renderer;
 
+import android.opengl.GLES20;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Shader class definition                                                   //
@@ -54,6 +56,46 @@ public class Shader
     ////////////////////////////////////////////////////////////////////////////
     public Shader(String vertexSrc, String fragmentSrc)
     {
+        m_vertexShader = 0;
+        m_fragmentShader = 0;
+        m_shaderProgram = 0;
 
+        // Init vertex shader
+        m_vertexShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);
+
+        // Set vertex shader source
+        GLES20.glShaderSource(m_vertexShader, vertexSrc);
+
+        // Compile vertex shader
+        GLES20.glCompileShader(m_vertexShader);
+
+
+        // Init fragment shader
+        m_fragmentShader = GLES20.glCreateShader(GLES20.GL_FRAGMENT_SHADER);
+
+        // Set fragment shader source
+        GLES20.glShaderSource(m_fragmentShader, fragmentSrc);
+
+        // Compile fragment shader
+        GLES20.glCompileShader(m_fragmentShader);
+
+
+        // Create shader program
+        m_shaderProgram = GLES20.glCreateProgram();
+        GLES20.glAttachShader(m_shaderProgram, m_vertexShader);
+        GLES20.glAttachShader(m_shaderProgram, m_fragmentShader);
+
+        // Link shader
+        GLES20.glLinkProgram(m_shaderProgram);
     }
+
+
+    // Vertex shader program
+    private int m_vertexShader;
+
+    // Fragment shader program
+    private int m_fragmentShader;
+
+    // Shader program
+    private int m_shaderProgram;
 }
