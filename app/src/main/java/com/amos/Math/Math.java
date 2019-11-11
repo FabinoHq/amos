@@ -47,5 +47,14 @@ package com.amos.Math;
 ////////////////////////////////////////////////////////////////////////////////
 public class Math
 {
-
+    ////////////////////////////////////////////////////////////////////////////
+    //  modulus : Integer modulo                                              //
+    //  param x : Left operand                                                //
+    //  param n : Right operand                                               //
+    //  return : Integer modulo (x % n)                                       //
+    ////////////////////////////////////////////////////////////////////////////
+    public static int modulus(int x, int n)
+    {
+        return ((x%n)+n)%n;
+    }
 }
