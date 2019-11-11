@@ -29,6 +29,7 @@
 !app/src/main/java/com/amos/Renderer/
 !app/src/main/java/com/amos/Renderer/SurfaceView.java
 !app/src/main/java/com/amos/Renderer/AmosRenderer.java
+!app/src/main/java/com/amos/Renderer/Shader.java
 
 #Resources files
 !app/src/main/res/drawable/ic_launcher_background.xml
