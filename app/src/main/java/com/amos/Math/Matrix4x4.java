@@ -41,6 +41,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos.Math;
 
+import java.lang.Math;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Matrix4x4 class definition                                                //
@@ -116,6 +118,102 @@ public class Matrix4x4
         m_matrix[13] = mat.m_matrix[13];
         m_matrix[14] = mat.m_matrix[14];
         m_matrix[15] = mat.m_matrix[15];
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  setOrthographic : Set 4x4 matrix to orthographic view matrix          //
+    //  param left : Left of the orthographic view                            //
+    //  param right : Right of the orthographic view                          //
+    //  param top : Top of the orthographic view                              //
+    //  param bottom : Bottom of the orthographic view                        //
+    //  param near : Near plane of the orthographic view                      //
+    //  param far : Far plane of the orthographic view                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setOrthographic(float left, float right, float top,
+        float bottom, float near, float far)
+    {
+        m_matrix[0] = 2.0f/(right-left);
+        m_matrix[1] = 0.0f;
+        m_matrix[2] = 0.0f;
+        m_matrix[3] = 0.0f;
+        m_matrix[4] = 0.0f;
+        m_matrix[5] = 2.0f/(top-bottom);
+        m_matrix[6] = 0.0f;
+        m_matrix[7] = 0.0f;
+        m_matrix[8] = 0.0f;
+        m_matrix[9] = 0.0f;
+        m_matrix[10] = -2.0f/(far-near);
+        m_matrix[11] = 0.0f;
+        m_matrix[12] = -(right+left)/(right-left);
+        m_matrix[13] = -(top+bottom)/(top-bottom);
+        m_matrix[14] = -(far+near)/(far-near);
+        m_matrix[15] = 1.0f;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  setFrustum : Set 4x4 matrix to frustum view matrix                    //
+    //  param left : Left of the frustum view                                 //
+    //  param right : Right of the frustum view                               //
+    //  param top : Top of the frustum view                                   //
+    //  param bottom : Bottom of the frustum view                             //
+    //  param near : Near plane of the frustum view                           //
+    //  param far : Far plane of the frustum view                             //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setFrustum(float left, float right, float top,
+        float bottom, float near, float far)
+    {
+        m_matrix[0] = (2.0f*near)/(right-left);
+        m_matrix[1] = 0.0f;
+        m_matrix[2] = 0.0f;
+        m_matrix[3] = 0.0f;
+        m_matrix[4] = 0.0f;
+        m_matrix[5] = (2.0f*near)/(top-bottom);
+        m_matrix[6] = 0.0f;
+        m_matrix[7] = 0.0f;
+        m_matrix[8] = (right+left)/(right-left);
+        m_matrix[9] = (top+bottom)/(top-bottom);
+        m_matrix[10] = -(far+near)/(far-near);
+        m_matrix[11] = -1.0f;
+        m_matrix[12] = 0.0f;
+        m_matrix[13] = 0.0f;
+        m_matrix[14] = -(2.0f*far*near)/(far-near);
+        m_matrix[15] = 0.0f;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  setPerspective : Set 4x4 matrix to perspective view matrix            //
+    //  param fovy : Angle of the field of view                               //
+    //  param ratio : Perspective aspect ratio (width / height)               //
+    //  param near : Near plane of the frustum view                           //
+    //  param far : Far plane of the frustum view                             //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setPerspective(float fovy, float ratio, float near, float far)
+    {
+        // Compute view frustum
+        float frustHeight = (float)((Math.tan((fovy/360.0f)*Math.PI))*near);
+        float frustWidth = frustHeight*ratio;
+        float left = -frustWidth;
+        float right = frustWidth;
+        float top = frustHeight;
+        float bottom = -frustHeight;
+        
+        // Set matrix
+        m_matrix[0] = (2.0f*near)/(right-left);
+        m_matrix[1] = 0.0f;
+        m_matrix[2] = 0.0f;
+        m_matrix[3] = 0.0f;
+        m_matrix[4] = 0.0f;
+        m_matrix[5] = (2.0f*near)/(top-bottom);
+        m_matrix[6] = 0.0f;
+        m_matrix[7] = 0.0f;
+        m_matrix[8] = (right+left)/(right-left);
+        m_matrix[9] = (top+bottom)/(top-bottom);
+        m_matrix[10] = -(far+near)/(far-near);
+        m_matrix[11] = -1.0f;
+        m_matrix[12] = 0.0f;
+        m_matrix[13] = 0.0f;
+        m_matrix[14] = -(2.0f*far*near)/(far-near);
+        m_matrix[15] = 0.0f;
     }
 
     // Internal matrix
