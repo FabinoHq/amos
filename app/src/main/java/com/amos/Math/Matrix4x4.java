@@ -190,7 +190,7 @@ public class Matrix4x4
     public void setPerspective(float fovy, float ratio, float near, float far)
     {
         // Compute view frustum
-        float frustHeight = (float)((Math.tan((fovy/360.0f)*Math.PI))*near);
+        float frustHeight = (float)((Math.tan((fovy/360.0)*Math.PI))*near);
         float frustWidth = frustHeight*ratio;
         float left = -frustWidth;
         float right = frustWidth;
@@ -214,6 +214,421 @@ public class Matrix4x4
         m_matrix[13] = 0.0f;
         m_matrix[14] = -(2.0f*far*near)/(far-near);
         m_matrix[15] = 0.0f;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  translateX : Translate 4x4 matrix on X axis                           //
+    //  param x : X axis translate value                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public void translateX(float x)
+    {
+        m_matrix[12] += (m_matrix[0]*x);
+        m_matrix[13] += (m_matrix[1]*x);
+        m_matrix[14] += (m_matrix[2]*x);
+        m_matrix[15] += (m_matrix[3]*x);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  translateY : Translate 4x4 matrix on Y axis                           //
+    //  param y : Y axis translate value                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public void translateY(float y)
+    {
+        m_matrix[12] += (m_matrix[4]*y);
+        m_matrix[13] += (m_matrix[5]*y);
+        m_matrix[14] += (m_matrix[6]*y);
+        m_matrix[15] += (m_matrix[7]*y);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  translateZ : Translate 4x4 matrix on Z axis                           //
+    //  param z : Z axis translate value                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public void translateZ(float z)
+    {
+        m_matrix[12] += (m_matrix[8]*z);
+        m_matrix[13] += (m_matrix[9]*z);
+        m_matrix[14] += (m_matrix[10]*z);
+        m_matrix[15] += (m_matrix[11]*z);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  rotate : Rotate 4x4 matrix arround an arbritrary axis                 //
+    //  param angle : Angle to rotate in degrees                              //
+    //  param x : X axis rotation value                                       //
+    //  param y : Y axis rotation value                                       //
+    //  param z : Z axis rotation value                                       //
+    ////////////////////////////////////////////////////////////////////////////
+    public void rotate(float angle, float x, float y, float z)
+    {
+        float magnitude = (float)Math.sqrt(x*x + y*y + z*z);
+        float sinAngle = (float)Math.sin(angle*Math.PI / 180.0);
+        float cosAngle = (float)Math.cos(angle*Math.PI / 180.0);
+        float oneMinCos = 1.0f-cosAngle;
+        if (magnitude > 0.0f)
+        {
+            x /= magnitude;
+            y /= magnitude;
+            z /= magnitude;
+        }
+        float rot0 = ((oneMinCos*x*x)+cosAngle);
+        float rot1 = ((oneMinCos*x*y)-(z*sinAngle));
+        float rot2 = ((oneMinCos*z*x)+(y*sinAngle));
+        float rot4 = ((oneMinCos*x*y)+(z*sinAngle));
+        float rot5 = ((oneMinCos*y*y)+cosAngle);
+        float rot6 = ((oneMinCos*y*z)-(x*sinAngle));
+        float rot8 = ((oneMinCos*z*x)-(y*sinAngle));
+        float rot9 = ((oneMinCos*y*z)+(x*sinAngle));
+        float rot10 = ((oneMinCos*z*z)+cosAngle);
+
+        Matrix4x4 rotMat = new Matrix4x4();
+
+        rotMat.m_matrix[0] = (m_matrix[0]*rot0
+                        + m_matrix[4]*rot1
+                        + m_matrix[8]*rot2);
+
+        rotMat.m_matrix[1] = (m_matrix[1]*rot0
+                        + m_matrix[5]*rot1
+                        + m_matrix[9]*rot2);
+
+        rotMat.m_matrix[2] = (m_matrix[2]*rot0
+                        + m_matrix[6]*rot1
+                        + m_matrix[10]*rot2);
+
+        rotMat.m_matrix[3] = (m_matrix[3]*rot0
+                        + m_matrix[7]*rot1
+                        + m_matrix[11]*rot2);
+
+        rotMat.m_matrix[4] = (m_matrix[0]*rot4
+                        + m_matrix[4]*rot5
+                        + m_matrix[8]*rot6);
+
+        rotMat.m_matrix[5] = (m_matrix[1]*rot4
+                        + m_matrix[5]*rot5
+                        + m_matrix[9]*rot6);
+
+        rotMat.m_matrix[6] = (m_matrix[2]*rot4
+                        + m_matrix[6]*rot5
+                        + m_matrix[10]*rot6);
+
+        rotMat.m_matrix[7] = (m_matrix[3]*rot4
+                        + m_matrix[7]*rot5
+                        + m_matrix[11]*rot6);
+
+        rotMat.m_matrix[8] = (m_matrix[0]*rot8
+                        + m_matrix[4]*rot9
+                        + m_matrix[8]*rot10);
+
+        rotMat.m_matrix[9] = (m_matrix[1]*rot8
+                        + m_matrix[5]*rot9
+                        + m_matrix[9]*rot10);
+
+        rotMat.m_matrix[10] = (m_matrix[2]*rot8
+                        + m_matrix[6]*rot9
+                        + m_matrix[10]*rot10);
+
+        rotMat.m_matrix[11] = (m_matrix[3]*rot8
+                        + m_matrix[7]*rot9
+                        + m_matrix[11]*rot10);
+
+        rotMat.m_matrix[12] = m_matrix[12];
+        rotMat.m_matrix[13] = m_matrix[13];
+        rotMat.m_matrix[14] = m_matrix[14];
+        rotMat.m_matrix[15] = m_matrix[15];
+
+        m_matrix = rotMat.m_matrix;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  rotateX : Rotate 4x4 matrix arround X axis                            //
+    //  param angle : Angle to rotate in degrees                              //
+    ////////////////////////////////////////////////////////////////////////////
+    public void rotateX(float angle)
+    {
+        float sinAngle = (float)Math.sin(angle*Math.PI / 180.0);
+        float cosAngle = (float)Math.cos(angle*Math.PI / 180.0);
+
+        Matrix4x4 rotMat = new Matrix4x4();
+
+        rotMat.m_matrix[0] = m_matrix[0];
+        rotMat.m_matrix[1] = m_matrix[1];
+        rotMat.m_matrix[2] = m_matrix[2];
+        rotMat.m_matrix[3] = m_matrix[3];
+
+        rotMat.m_matrix[4] = (m_matrix[4]*cosAngle
+                            + m_matrix[8]*-sinAngle);
+
+        rotMat.m_matrix[5] = (m_matrix[5]*cosAngle
+                            + m_matrix[9]*-sinAngle);
+
+        rotMat.m_matrix[6] = (m_matrix[6]*cosAngle
+                            + m_matrix[10]*-sinAngle);
+
+        rotMat.m_matrix[7] = (m_matrix[7]*cosAngle
+                            + m_matrix[11]*-sinAngle);
+
+        rotMat.m_matrix[8] = (m_matrix[4]*sinAngle
+                            + m_matrix[8]*cosAngle);
+
+        rotMat.m_matrix[9] = (m_matrix[5]*sinAngle
+                            + m_matrix[9]*cosAngle);
+
+        rotMat.m_matrix[10] = (m_matrix[6]*sinAngle
+                            + m_matrix[10]*cosAngle);
+
+        rotMat.m_matrix[11] = (m_matrix[7]*sinAngle
+                            + m_matrix[11]*cosAngle);
+
+        rotMat.m_matrix[12] = m_matrix[12];
+        rotMat.m_matrix[13] = m_matrix[13];
+        rotMat.m_matrix[14] = m_matrix[14];
+        rotMat.m_matrix[15] = m_matrix[15];
+
+        m_matrix = rotMat.m_matrix;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  rotateY : Rotate 4x4 matrix arround Y axis                            //
+    //  param angle : Angle to rotate in degrees                              //
+    ////////////////////////////////////////////////////////////////////////////
+    public void rotateY(float angle)
+    {
+        float sinAngle = (float)Math.sin(angle*Math.PI / 180.0);
+        float cosAngle = (float)Math.cos(angle*Math.PI / 180.0);
+
+        Matrix4x4 rotMat = new Matrix4x4();
+
+        rotMat.m_matrix[0] = (m_matrix[0]*cosAngle
+                            + m_matrix[8]*sinAngle);
+
+        rotMat.m_matrix[1] = (m_matrix[1]*cosAngle
+                            + m_matrix[9]*sinAngle);
+
+        rotMat.m_matrix[2] = (m_matrix[2]*cosAngle
+                            + m_matrix[10]*sinAngle);
+
+        rotMat.m_matrix[3] = (m_matrix[3]*cosAngle
+                            + m_matrix[11]*sinAngle);
+
+        rotMat.m_matrix[4] = m_matrix[4];
+        rotMat.m_matrix[5] = m_matrix[5];
+        rotMat.m_matrix[6] = m_matrix[6];
+        rotMat.m_matrix[7] = m_matrix[7];
+
+        rotMat.m_matrix[8] = (m_matrix[0]*-sinAngle
+                            + m_matrix[8]*cosAngle);
+
+        rotMat.m_matrix[9] = (m_matrix[1]*-sinAngle
+                            + m_matrix[9]*cosAngle);
+
+        rotMat.m_matrix[10] = (m_matrix[2]*-sinAngle
+                            + m_matrix[10]*cosAngle);
+
+        rotMat.m_matrix[11] = (m_matrix[3]*-sinAngle
+                            + m_matrix[11]*cosAngle);
+
+        rotMat.m_matrix[12] = m_matrix[12];
+        rotMat.m_matrix[13] = m_matrix[13];
+        rotMat.m_matrix[14] = m_matrix[14];
+        rotMat.m_matrix[15] = m_matrix[15];
+
+        m_matrix = rotMat.m_matrix;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  rotateZ : Rotate 4x4 matrix arround Z axis                            //
+    //  param angle : Angle to rotate in degrees                              //
+    ////////////////////////////////////////////////////////////////////////////
+    public void rotateZ(float angle)
+    {
+        float sinAngle = (float)Math.sin(angle*Math.PI / 180.0);
+        float cosAngle = (float)Math.cos(angle*Math.PI / 180.0);
+
+        Matrix4x4 rotMat = new Matrix4x4();
+
+        rotMat.m_matrix[0] = (m_matrix[0]*cosAngle
+                            + m_matrix[4]*-sinAngle);
+
+        rotMat.m_matrix[1] = (m_matrix[1]*cosAngle
+                            + m_matrix[5]*-sinAngle);
+
+        rotMat.m_matrix[2] = (m_matrix[2]*cosAngle
+                            + m_matrix[6]*-sinAngle);
+
+        rotMat.m_matrix[3] = (m_matrix[3]*cosAngle
+                            + m_matrix[7]*-sinAngle);
+
+        rotMat.m_matrix[4] = (m_matrix[0]*sinAngle
+                            + m_matrix[4]*cosAngle);
+
+        rotMat.m_matrix[5] = (m_matrix[1]*sinAngle
+                            + m_matrix[5]*cosAngle);
+
+        rotMat.m_matrix[6] = (m_matrix[2]*sinAngle
+                            + m_matrix[6]*cosAngle);
+
+        rotMat.m_matrix[7] = (m_matrix[3]*sinAngle
+                            + m_matrix[7]*cosAngle);
+
+        rotMat.m_matrix[8] = m_matrix[8];
+        rotMat.m_matrix[9] = m_matrix[9];
+        rotMat.m_matrix[10] = m_matrix[10];
+        rotMat.m_matrix[11] = m_matrix[11];
+        rotMat.m_matrix[12] = m_matrix[12];
+        rotMat.m_matrix[13] = m_matrix[13];
+        rotMat.m_matrix[14] = m_matrix[14];
+        rotMat.m_matrix[15] = m_matrix[15];
+
+        m_matrix = rotMat.m_matrix;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  scale : Scale 4x4 matrix                                              //
+    //  param x : X factor to scale to                                        //
+    //  param y : Y factor to scale to                                        //
+    //  param z : Z factor to scale to                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void scale(float x, float y, float z)
+    {
+        m_matrix[0] *= x;
+        m_matrix[1] *= x;
+        m_matrix[2] *= x;
+        m_matrix[3] *= x;
+        m_matrix[4] *= y;
+        m_matrix[5] *= y;
+        m_matrix[6] *= y;
+        m_matrix[7] *= y;
+        m_matrix[8] *= z;
+        m_matrix[9] *= z;
+        m_matrix[10] *= z;
+        m_matrix[11] *= z;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  scaleX : Scale 4x4 matrix along the X axis                            //
+    //  param x : X factor to scale to                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void scaleX(float x)
+    {
+        m_matrix[0] *= x;
+        m_matrix[1] *= x;
+        m_matrix[2] *= x;
+        m_matrix[3] *= x;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  scaleY : Scale 4x4 matrix along the Y axis                            //
+    //  param y : Y factor to scale to                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void scaleY(float y)
+    {
+        m_matrix[4] *= y;
+        m_matrix[5] *= y;
+        m_matrix[6] *= y;
+        m_matrix[7] *= y;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  scaleZ : Scale 4x4 matrix along the Z axis                            //
+    //  param z : Z factor to scale to                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void scaleZ(float z)
+    {
+        m_matrix[8] *= z;
+        m_matrix[9] *= z;
+        m_matrix[10] *= z;
+        m_matrix[11] *= z;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  multiply : Multiply 4x4 matrix by another 4x4 matrix                  //
+    //  param mat : 4x4 matrix to multiply                                 //
+    ////////////////////////////////////////////////////////////////////////////
+    public void multiply(Matrix4x4 mat)
+    {
+        Matrix4x4 multMat = new Matrix4x4();
+
+        multMat.m_matrix[0] = (m_matrix[0]*mat.m_matrix[0]
+                            + m_matrix[4]*mat.m_matrix[1]
+                            + m_matrix[8]*mat.m_matrix[2]
+                            + m_matrix[12]*mat.m_matrix[3]);
+
+        multMat.m_matrix[1] = (m_matrix[1]*mat.m_matrix[0]
+                            + m_matrix[5]*mat.m_matrix[1]
+                            + m_matrix[9]*mat.m_matrix[2]
+                            + m_matrix[13]*mat.m_matrix[3]);
+
+        multMat.m_matrix[2] = (m_matrix[2]*mat.m_matrix[0]
+                            + m_matrix[6]*mat.m_matrix[1]
+                            + m_matrix[10]*mat.m_matrix[2]
+                            + m_matrix[14]*mat.m_matrix[3]);
+
+        multMat.m_matrix[3] = (m_matrix[3]*mat.m_matrix[0]
+                            + m_matrix[7]*mat.m_matrix[1]
+                            + m_matrix[11]*mat.m_matrix[2]
+                            + m_matrix[15]*mat.m_matrix[3]);
+
+        multMat.m_matrix[4] = (m_matrix[0]*mat.m_matrix[4]
+                            + m_matrix[4]*mat.m_matrix[5]
+                            + m_matrix[8]*mat.m_matrix[6]
+                            + m_matrix[12]*mat.m_matrix[7]);
+
+        multMat.m_matrix[5] = (m_matrix[1]*mat.m_matrix[4]
+                            + m_matrix[5]*mat.m_matrix[5]
+                            + m_matrix[9]*mat.m_matrix[6]
+                            + m_matrix[13]*mat.m_matrix[7]);
+
+        multMat.m_matrix[6] = (m_matrix[2]*mat.m_matrix[4]
+                            + m_matrix[6]*mat.m_matrix[5]
+                            + m_matrix[10]*mat.m_matrix[6]
+                            + m_matrix[14]*mat.m_matrix[7]);
+
+        multMat.m_matrix[7] = (m_matrix[3]*mat.m_matrix[4]
+                            + m_matrix[7]*mat.m_matrix[5]
+                            + m_matrix[11]*mat.m_matrix[6]
+                            + m_matrix[15]*mat.m_matrix[7]);
+
+        multMat.m_matrix[8] = (m_matrix[0]*mat.m_matrix[8]
+                            + m_matrix[4]*mat.m_matrix[9]
+                            + m_matrix[8]*mat.m_matrix[10]
+                            + m_matrix[12]*mat.m_matrix[11]);
+
+        multMat.m_matrix[9] = (m_matrix[1]*mat.m_matrix[8]
+                            + m_matrix[5]*mat.m_matrix[9]
+                            + m_matrix[9]*mat.m_matrix[10]
+                            + m_matrix[13]*mat.m_matrix[11]);
+
+        multMat.m_matrix[10] = (m_matrix[2]*mat.m_matrix[8]
+                            + m_matrix[6]*mat.m_matrix[9]
+                            + m_matrix[10]*mat.m_matrix[10]
+                            + m_matrix[14]*mat.m_matrix[11]);
+
+        multMat.m_matrix[11] = (m_matrix[3]*mat.m_matrix[8]
+                            + m_matrix[7]*mat.m_matrix[9]
+                            + m_matrix[11]*mat.m_matrix[10]
+                            + m_matrix[15]*mat.m_matrix[11]);
+
+        multMat.m_matrix[12] = (m_matrix[0]*mat.m_matrix[12]
+                            + m_matrix[4]*mat.m_matrix[13]
+                            + m_matrix[8]*mat.m_matrix[14]
+                            + m_matrix[12]*mat.m_matrix[15]);
+
+        multMat.m_matrix[13] = (m_matrix[1]*mat.m_matrix[12]
+                            + m_matrix[5]*mat.m_matrix[13]
+                            + m_matrix[9]*mat.m_matrix[14]
+                            + m_matrix[13]*mat.m_matrix[15]);
+
+        multMat.m_matrix[14] = (m_matrix[2]*mat.m_matrix[12]
+                            + m_matrix[6]*mat.m_matrix[13]
+                            + m_matrix[10]*mat.m_matrix[14]
+                            + m_matrix[14]*mat.m_matrix[15]);
+
+        multMat.m_matrix[15] = (m_matrix[3]*mat.m_matrix[12]
+                            + m_matrix[7]*mat.m_matrix[13]
+                            + m_matrix[11]*mat.m_matrix[14]
+                            + m_matrix[15]*mat.m_matrix[15]);
+
+        m_matrix = multMat.m_matrix;
     }
 
     // Internal matrix
