@@ -47,5 +47,77 @@ package com.amos.Math;
 ////////////////////////////////////////////////////////////////////////////////
 public class Matrix4x4
 {
+    ////////////////////////////////////////////////////////////////////////////
+    //  Matrix4x4 default constructor                                         //
+    ////////////////////////////////////////////////////////////////////////////
+    public Matrix4x4()
+    {
+        m_matrix = new float[16];
+        m_matrix[0] = 1.0f;
+        m_matrix[1] = 0.0f;
+        m_matrix[2] = 0.0f;
+        m_matrix[3] = 0.0f;
+        m_matrix[4] = 0.0f;
+        m_matrix[5] = 1.0f;
+        m_matrix[6] = 0.0f;
+        m_matrix[7] = 0.0f;
+        m_matrix[8] = 0.0f;
+        m_matrix[9] = 0.0f;
+        m_matrix[10] = 1.0f;
+        m_matrix[11] = 0.0f;
+        m_matrix[12] = 0.0f;
+        m_matrix[13] = 0.0f;
+        m_matrix[14] = 0.0f;
+        m_matrix[15] = 1.0f;
+    }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //  setIdentity : Set 4x4 identity matrix                                 //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setIdentity()
+    {
+        m_matrix[0] = 1.0f;
+        m_matrix[1] = 0.0f;
+        m_matrix[2] = 0.0f;
+        m_matrix[3] = 0.0f;
+        m_matrix[4] = 0.0f;
+        m_matrix[5] = 1.0f;
+        m_matrix[6] = 0.0f;
+        m_matrix[7] = 0.0f;
+        m_matrix[8] = 0.0f;
+        m_matrix[9] = 0.0f;
+        m_matrix[10] = 1.0f;
+        m_matrix[11] = 0.0f;
+        m_matrix[12] = 0.0f;
+        m_matrix[13] = 0.0f;
+        m_matrix[14] = 0.0f;
+        m_matrix[15] = 1.0f;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  setMatrix : Set 4x4 matrix from another matrix (copy)                 //
+    //  param mat : 4x4 matrix to copy                                        //
+    ////////////////////////////////////////////////////////////////////////////
+    public void setMatrix(Matrix4x4 mat)
+    {
+        m_matrix[0] = mat.m_matrix[0];
+        m_matrix[1] = mat.m_matrix[1];
+        m_matrix[2] = mat.m_matrix[2];
+        m_matrix[3] = mat.m_matrix[3];
+        m_matrix[4] = mat.m_matrix[4];
+        m_matrix[5] = mat.m_matrix[5];
+        m_matrix[6] = mat.m_matrix[6];
+        m_matrix[7] = mat.m_matrix[7];
+        m_matrix[8] = mat.m_matrix[8];
+        m_matrix[9] = mat.m_matrix[9];
+        m_matrix[10] = mat.m_matrix[10];
+        m_matrix[11] = mat.m_matrix[11];
+        m_matrix[12] = mat.m_matrix[12];
+        m_matrix[13] = mat.m_matrix[13];
+        m_matrix[14] = mat.m_matrix[14];
+        m_matrix[15] = mat.m_matrix[15];
+    }
+
+    // Internal matrix
+    private float m_matrix[];
 }
