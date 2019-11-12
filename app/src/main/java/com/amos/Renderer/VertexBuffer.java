@@ -49,5 +49,97 @@ import android.opengl.GLES20;
 ////////////////////////////////////////////////////////////////////////////////
 public class VertexBuffer
 {
+    ////////////////////////////////////////////////////////////////////////////
+    //  VertexBuffer default constructor                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public VertexBuffer()
+    {
+        m_loaded = false;
+        m_vertexBuffer = new int[1];
+        m_elementBuffer = new int[1];
+        m_texCoordsOffset = 0;
+        m_verticesData = new float[] {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f
+        };
+        m_texCoordsData = new float[] {
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f, 0.0f
+        };
+        m_indicesData = new int[] {
+            0, 1, 2,
+            0, 2, 3
+        };
+        m_vertCount = 6;
+    }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //  init : Init vertex buffer object                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public boolean init()
+    {
+        // Reset VBO
+        m_loaded = false;
+        m_vertexBuffer[0] = 0;
+        m_elementBuffer[0] = 0;
+
+        // Create VBO
+        GLES20.glGenBuffers(1, m_vertexBuffer, 0);
+
+        // Create EBO
+        GLES20.glGenBuffers(1, m_elementBuffer, 0);
+
+        // VBO successfully loaded
+        m_loaded = true;
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  bind : Bind vertex buffer object to renderer                          //
+    ////////////////////////////////////////////////////////////////////////////
+    public void bind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m_vertexBuffer[0]);
+            GLES20.glBindBuffer(
+                GLES20.GL_ELEMENT_ARRAY_BUFFER,
+                m_elementBuffer[0]
+            );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  unbind : Unbind vertex buffer object                                  //
+    ////////////////////////////////////////////////////////////////////////////
+    public void unbind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
+            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        }
+    }
+    
+
+    // VBO loaded state
+    private boolean m_loaded;
+
+    // Vertex buffer object
+    private int m_vertexBuffer[];
+    // Element buffer object
+    private int m_elementBuffer[];
+
+    // Textures coordinates offset
+    private int m_texCoordsOffset;
+
+    // Geometry data
+    private float m_verticesData[];
+    private float m_texCoordsData[];
+    private int m_indicesData[];
+    private int m_vertCount;
 }

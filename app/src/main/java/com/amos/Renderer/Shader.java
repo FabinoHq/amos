@@ -221,7 +221,7 @@ public class Shader
     }
 
 
-    // Shader loaded status
+    // Shader loaded state
     private boolean m_loaded;
 
     // Shader sources
