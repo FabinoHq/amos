@@ -86,14 +86,15 @@ public class MainActivity extends Activity
     ////////////////////////////////////////////////////////////////////////////
     public void setFullscreen()
     {
-        // Get original view size
-        View view = getWindow().getDecorView();
-        final int originalWidth = view.getWidth();
-        final int originalHeight = view.getHeight();
-
+        // Recursive Runnable to set Fullscreen on
         final Handler handler = new Handler();
-        Runnable runnable = new Runnable()
+        class StartupRunnable implements Runnable
         {
+            public StartupRunnable()
+            {
+                m_loopCount = 0;
+            }
+
             @Override
             public void run()
             {
@@ -108,15 +109,19 @@ public class MainActivity extends Activity
                     View.SYSTEM_UI_FLAG_FULLSCREEN
                 );
 
-                // Check current view size
-                if ((currentView.getWidth() == originalWidth) &&
-                    (currentView.getHeight() == originalHeight))
+                // Callback this function for a while
+                if (m_loopCount <= 20)
                 {
-                    // Callback this function until fullscreen is on
-                    handler.postDelayed(this, 100);
+                    ++m_loopCount;
+                    handler.postDelayed(this, 200);
                 }
             }
-        };
-        handler.postDelayed(runnable, 100);
+
+            // Loop counter
+            private int m_loopCount;
+        }
+        
+        StartupRunnable runnable = new StartupRunnable();
+        handler.postDelayed(runnable, 200);
     }
 }
