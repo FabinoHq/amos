@@ -148,6 +148,7 @@ public class VertexBuffer
         final ShortBuffer indicesData = ByteBuffer.allocateDirect(
             m_indicesData.length*4).order(ByteOrder.nativeOrder()
         ).asShortBuffer();
+        indicesData.put(m_indicesData).position(0);
 
         // Send data to GPU
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m_vertexBuffer[0]);
@@ -177,14 +178,21 @@ public class VertexBuffer
 
     ////////////////////////////////////////////////////////////////////////////
     //  render : Render the vertex buffer object                              //
+    //  param shader : Shader program to render with                          //
     ////////////////////////////////////////////////////////////////////////////
-    public void render()
+    public void render(Shader shader)
     {
+        // Bind VBO
+        bind();
+
         if (m_loaded)
         {
             // Enable vertices array
-            GLES20.glEnableVertexAttribArray(0);
-            GLES20.glVertexAttribPointer(0, 2, GLES20.GL_FLOAT, false, 0, 0);
+            int vertexPosLocation = shader.getVertexPosLocation();
+            GLES20.glEnableVertexAttribArray(vertexPosLocation);
+            GLES20.glVertexAttribPointer(
+                vertexPosLocation, 2, GLES20.GL_FLOAT, false, 0, 0
+            );
 
             // Draw triangles
             GLES20.glDrawElements(
@@ -193,6 +201,9 @@ public class VertexBuffer
                 GLES20.GL_UNSIGNED_SHORT, 0
             );
         }
+
+        // Unbind VBO
+        unbind();
     }
 
 

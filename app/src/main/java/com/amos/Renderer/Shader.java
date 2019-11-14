@@ -97,6 +97,7 @@ public class Shader
         m_vertexShader = 0;
         m_fragmentShader = 0;
         m_shaderProgram = 0;
+        m_vertexLocation = -1;
         m_textureLocation = -1;
         m_projMatrixLocation = -1;
         m_viewMatrixLocation = -1;
@@ -119,6 +120,7 @@ public class Shader
         m_vertexShader = 0;
         m_fragmentShader = 0;
         m_shaderProgram = 0;
+        m_vertexLocation = -1;
         m_textureLocation = -1;
         m_projMatrixLocation = -1;
         m_viewMatrixLocation = -1;
@@ -157,6 +159,13 @@ public class Shader
 
         // Use shader program
         GLES20.glUseProgram(m_shaderProgram);
+
+        // Get vertex position attribute location
+        m_vertexLocation = GLES20.glGetAttribLocation(
+            m_shaderProgram,
+            "vertexPos"
+        );
+        if (m_vertexLocation == -1) { return false; }
 
         // Get texture location
         m_textureLocation = GLES20.glGetUniformLocation(
@@ -223,6 +232,15 @@ public class Shader
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    //  getVertexPosLocation : Get vertex position attribute location         //
+    //  return : Vertex position attribute location                           //
+    ////////////////////////////////////////////////////////////////////////////
+    public int getVertexPosLocation()
+    {
+        return m_vertexLocation;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     //  sendProjectionMatrix : Send projection matrix to use with this shader //
     //  param projectionMatrix : 4x4 Projection matrix to use                 //
     ////////////////////////////////////////////////////////////////////////////
@@ -276,6 +294,9 @@ public class Shader
     private int m_vertexShader;
     private int m_fragmentShader;
     private int m_shaderProgram;
+
+    // Shader attributes locations
+    private int m_vertexLocation;
 
     // Shader uniforms locations
     private int m_textureLocation;
