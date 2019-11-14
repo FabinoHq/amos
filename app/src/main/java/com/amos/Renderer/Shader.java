@@ -43,6 +43,8 @@ package com.amos.Renderer;
 
 import android.opengl.GLES20;
 
+import com.amos.Math.Matrix4x4;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Shader class definition                                                   //
@@ -53,35 +55,35 @@ public class Shader
     //  Default vertex shader                                                 //
     ////////////////////////////////////////////////////////////////////////////
     static final String defaultVertexShaderSrc =
-        "attribute vec3 vertexPos;\n" +
-        "attribute vec2 vertexColor;\n" +
-        "uniform mat4 projMatrix;\n" +
-        "uniform mat4 viewMatrix;\n" +
-        "uniform mat4 modelMatrix;\n" +
-        "uniform float alphaUniform;\n" +
-        "varying vec2 texCoord;\n" +
-        "varying float alphaValue;\n" +
-        "void main()\n" +
-        "{\n" +
-        "   texCoord = vertexColor;\n" +
-        "   alphaValue = alphaUniform\n;" +
+        "attribute vec3 vertexPos;" +
+        "attribute vec2 vertexColor;" +
+        "uniform mat4 projMatrix;" +
+        "uniform mat4 viewMatrix;" +
+        "uniform mat4 modelMatrix;" +
+        "uniform float alphaUniform;" +
+        "varying vec2 texCoord;" +
+        "varying float alphaValue;" +
+        "void main()" +
+        "{" +
+        "   texCoord = vertexColor;" +
+        "   alphaValue = alphaUniform;" +
         "   gl_Position = projMatrix*viewMatrix*modelMatrix*vec4(" +
-                "vertexPos, 1.0);\n" +
-        "}\n";
+                "vertexPos, 1.0);" +
+        "}";
 
     ////////////////////////////////////////////////////////////////////////////
     //  Default fragment shader                                               //
     ////////////////////////////////////////////////////////////////////////////
     static final String defaultFragmentShaderSrc =
-        "precision mediump float;\n" +
-        "uniform sampler2D texture;\n" +
-        "varying vec2 texCoord;\n" +
-        "varying float alphaValue;\n" +
-        "void main()\n" +
-        "{\n" +
-        "   vec4 texColor = texture2D(texture, texCoord);\n" +
-        "   gl_FragColor = vec4(texColor.rgb, texColor.a*alphaValue);\n" +
-        "}\n";
+        "precision mediump float;" +
+        "uniform sampler2D texture;" +
+        "varying vec2 texCoord;" +
+        "varying float alphaValue;" +
+        "void main()" +
+        "{" +
+        "   vec4 texColor = texture2D(texture, texCoord);" +
+        "   gl_FragColor = vec4(texColor.rgb, texColor.a*alphaValue);" +
+        "}";
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -217,6 +219,48 @@ public class Shader
         if (m_loaded)
         {
             GLES20.glUseProgram(0);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  sendProjectionMatrix : Send projection matrix to use with this shader //
+    //  param projectionMatrix : 4x4 Projection matrix to use                 //
+    ////////////////////////////////////////////////////////////////////////////
+    public void sendProjectionMatrix(Matrix4x4 projectionMatrix)
+    {
+        if (m_loaded)
+        {
+            GLES20.glUniformMatrix4fv(
+                m_projMatrixLocation, 1, false, projectionMatrix.getMatrix(), 0
+            );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  sendViewMatrix : Send view matrix to use with this shader             //
+    //  param viewMatrix : 4x4 View matrix to use                             //
+    ////////////////////////////////////////////////////////////////////////////
+    public void sendViewMatrix(Matrix4x4 viewMatrix)
+    {
+        if (m_loaded)
+        {
+            GLES20.glUniformMatrix4fv(
+                m_viewMatrixLocation, 1, false, viewMatrix.getMatrix(), 0
+            );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  sendModelMatrix : Send model matrix to use with this shader           //
+    //  param modelMatrix : 4x4 Model matrix to use                           //
+    ////////////////////////////////////////////////////////////////////////////
+    public void sendModelMatrix(Matrix4x4 modelMatrix)
+    {
+        if (m_loaded)
+        {
+            GLES20.glUniformMatrix4fv(
+                m_modelMatrixLocation, 1, false, modelMatrix.getMatrix(), 0
+            );
         }
     }
 

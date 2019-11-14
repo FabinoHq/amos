@@ -631,6 +631,15 @@ public class Matrix4x4
         m_matrix = multMat.m_matrix;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //  getMatrix : Get internal 4x4 matrix float data                        //
+    //  return : Internal 4x4 matrix float data                               //
+    ////////////////////////////////////////////////////////////////////////////
+    public float[] getMatrix()
+    {
+        return m_matrix;
+    }
+
     // Internal matrix
     private float m_matrix[];
 }
