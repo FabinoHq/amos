@@ -43,6 +43,11 @@ package com.amos.Renderer;
 
 import android.opengl.GLES20;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
+import java.nio.FloatBuffer;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  VertexBuffer class definition                                             //
@@ -70,7 +75,7 @@ public class VertexBuffer
             1.0f, 0.0f,
             0.0f, 0.0f
         };
-        m_indicesData = new int[] {
+        m_indicesData = new short[] {
             0, 1, 2,
             0, 2, 3
         };
@@ -92,6 +97,9 @@ public class VertexBuffer
 
         // Create EBO
         GLES20.glGenBuffers(1, m_elementBuffer, 0);
+
+        // Update VBO
+        updateBuffer();
 
         // VBO successfully loaded
         m_loaded = true;
@@ -124,7 +132,69 @@ public class VertexBuffer
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         }
     }
-    
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  updateBuffer : Update vertex buffer object                            //
+    ////////////////////////////////////////////////////////////////////////////
+    public void updateBuffer()
+    {
+        // Prepare vertices data
+        final FloatBuffer verticesData = ByteBuffer.allocateDirect(
+            m_verticesData.length*4).order(ByteOrder.nativeOrder()
+        ).asFloatBuffer();
+        verticesData.put(m_verticesData).position(0);
+
+        // Prepare indices data
+        final ShortBuffer indicesData = ByteBuffer.allocateDirect(
+            m_indicesData.length*4).order(ByteOrder.nativeOrder()
+        ).asShortBuffer();
+
+        // Send data to GPU
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m_vertexBuffer[0]);
+        m_texCoordsOffset = verticesData.capacity()*4;
+
+        // Send vertices data
+        GLES20.glBufferData(
+            GLES20.GL_ARRAY_BUFFER,
+            m_texCoordsOffset,
+            verticesData,
+            GLES20.GL_STATIC_DRAW
+        );
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        // Send indexes data
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, m_elementBuffer[0]);
+        GLES20.glBufferData(
+            GLES20.GL_ELEMENT_ARRAY_BUFFER,
+            indicesData.capacity()*2,
+            indicesData,
+            GLES20.GL_STATIC_DRAW
+        );
+
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  render : Render the vertex buffer object                              //
+    ////////////////////////////////////////////////////////////////////////////
+    public void render()
+    {
+        if (m_loaded)
+        {
+            // Enable vertices array
+            GLES20.glEnableVertexAttribArray(0);
+            GLES20.glVertexAttribPointer(0, 2, GLES20.GL_FLOAT, false, 0, 0);
+
+            // Draw triangles
+            GLES20.glDrawElements(
+                GLES20.GL_TRIANGLES,
+                m_vertCount,
+                GLES20.GL_UNSIGNED_SHORT, 0
+            );
+        }
+    }
+
 
     // VBO loaded state
     private boolean m_loaded;
@@ -140,6 +210,6 @@ public class VertexBuffer
     // Geometry data
     private float m_verticesData[];
     private float m_texCoordsData[];
-    private int m_indicesData[];
+    private short m_indicesData[];
     private int m_vertCount;
 }
