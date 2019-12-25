@@ -84,6 +84,7 @@ public class VertexBuffer
 
     ////////////////////////////////////////////////////////////////////////////
     //  init : Init vertex buffer object                                      //
+    //  return : True if vertex buffer object is loaded, false otherwise      //
     ////////////////////////////////////////////////////////////////////////////
     public boolean init()
     {

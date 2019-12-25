@@ -74,6 +74,9 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     {
         // Init OpenGL
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        // Init amos
+        m_amos.init();
     }
 
     ////////////////////////////////////////////////////////////////////////////
