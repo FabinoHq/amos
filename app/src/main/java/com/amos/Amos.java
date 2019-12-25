@@ -37,101 +37,55 @@
 //   For more information, please refer to <http://unlicense.org>             //
 ////////////////////////////////////////////////////////////////////////////////
 //    AMOS : Android Mobile Operating System                                  //
-//     MainActivity.java : Main program entry point                           //
+//     Amos.java : Amos Global management                                     //
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.app.Activity;
-import android.view.View;
+import com.amos.Renderer.AmosRenderer;
 
-import com.amos.Renderer.SurfaceView;
+import android.util.Log;
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  MainActivity class definition                                             //
+//  Amos class definition                                                     //
 ////////////////////////////////////////////////////////////////////////////////
-public class MainActivity extends Activity
+public class Amos
 {
     ////////////////////////////////////////////////////////////////////////////
-    //  onCreate : Application entry point                                    //
+    //  Amos default constructor                                              //
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public Amos()
     {
-        super.onCreate(savedInstanceState);
 
-        // Create Amos
-        m_amos = new Amos();
-
-        // Create surface view for rendering
-        m_surfaceView = new SurfaceView(this, m_amos.getRenderer(), m_amos);
-        setContentView(m_surfaceView);
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    //  onWindowFocusChanged : Application gain or lost focus                 //
-    //  param hasFocus : True if the application has focus, false otherwise   //
+    //  compute : Compute all physics and logic                               //
     ////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
+    public void compute()
     {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus)
-        {
-            setFullscreen();
-        }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    //  setFullscreen : Set application fullscreen mode on                    //
+    //  compute : Amos frame rendering                                        //
     ////////////////////////////////////////////////////////////////////////////
-    public void setFullscreen()
+    public void render()
     {
-        // Recursive Runnable to set Fullscreen on
-        final Handler handler = new Handler();
-        class StartupRunnable implements Runnable
-        {
-            public StartupRunnable()
-            {
-                m_loopCount = 0;
-            }
 
-            @Override
-            public void run()
-            {
-                // Set fullscreen mode on
-                View currentView = getWindow().getDecorView();
-                currentView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                    View.SYSTEM_UI_FLAG_FULLSCREEN
-                );
-
-                // Callback this function for a while
-                if (m_loopCount <= 20)
-                {
-                    ++m_loopCount;
-                    handler.postDelayed(this, 200);
-                }
-            }
-
-            // Loop counter
-            private int m_loopCount;
-        }
-        
-        StartupRunnable runnable = new StartupRunnable();
-        handler.postDelayed(runnable, 200);
     }
 
 
-    // Amos instance
-    private Amos m_amos;
+    ////////////////////////////////////////////////////////////////////////////
+    //  getRenderer : Get Amos renderer                                       //
+    //  return : Amos renderer reference                                      //
+    ////////////////////////////////////////////////////////////////////////////
+    public AmosRenderer getRenderer()
+    {
+        return m_renderer;
+    }
 
-    // Main surface view
-    private SurfaceView m_surfaceView;
+
+    // Amos Renderer
+    private AmosRenderer m_renderer;
 }

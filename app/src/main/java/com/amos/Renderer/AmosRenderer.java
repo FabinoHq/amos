@@ -47,12 +47,23 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLES20;
 
+import com.amos.Amos;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  AmosRenderer class definition                                             //
 ////////////////////////////////////////////////////////////////////////////////
 public class AmosRenderer implements GLSurfaceView.Renderer
 {
+    ////////////////////////////////////////////////////////////////////////////
+    //  AmosRenderer default constructor                                      //
+    //  param amos : Amos reference                                           //
+    ////////////////////////////////////////////////////////////////////////////
+    public AmosRenderer(Amos amos)
+    {
+        m_amos = amos;
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     //  onSurfaceCreated : Renderer entry point                               //
     //  param gl10 : OpenGL ES 1.0 reference                                  //
@@ -87,5 +98,15 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     {
         // Clear frame
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
+        // Compute frame
+        m_amos.compute();
+
+        // Render frame
+        m_amos.render();
     }
+
+
+    // Amos reference
+    private final Amos m_amos;
 }

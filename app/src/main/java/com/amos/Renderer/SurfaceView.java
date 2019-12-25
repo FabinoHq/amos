@@ -44,6 +44,8 @@ package com.amos.Renderer;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
+import com.amos.Amos;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //  SurfaceView class definition                                              //
@@ -52,8 +54,11 @@ public class SurfaceView extends GLSurfaceView
 {
     ////////////////////////////////////////////////////////////////////////////
     //  SurfaceView default constructor                                       //
+    //  param context : Main activity context                                 //
+    //  param renderer : Amos renderer reference                              //
+    //  param amos : Amos reference                                           //
     ////////////////////////////////////////////////////////////////////////////
-    public SurfaceView(Context context)
+    public SurfaceView(Context context, AmosRenderer renderer, Amos amos)
     {
         super(context);
 
@@ -61,10 +66,7 @@ public class SurfaceView extends GLSurfaceView
         setEGLContextClientVersion(2);
 
         // Create renderer
-        renderer = new AmosRenderer();
+        renderer = new AmosRenderer(amos);
         setRenderer(renderer);
     }
-
-    // Renderer
-    private final AmosRenderer renderer;
 }
