@@ -43,8 +43,6 @@ package com.amos;
 
 import com.amos.Renderer.AmosRenderer;
 
-import android.util.Log;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Amos class definition                                                     //
