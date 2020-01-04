@@ -59,7 +59,7 @@ public class AmosRenderer implements GLSurfaceView.Renderer
     //  AmosRenderer default constructor                                      //
     //  param amos : Amos reference                                           //
     ////////////////////////////////////////////////////////////////////////////
-    public AmosRenderer(Amos amos)
+    public AmosRenderer(final Amos amos)
     {
         m_amos = amos;
     }

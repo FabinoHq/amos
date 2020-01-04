@@ -58,7 +58,7 @@ public class SurfaceView extends GLSurfaceView
     //  param renderer : Amos renderer reference                              //
     //  param amos : Amos reference                                           //
     ////////////////////////////////////////////////////////////////////////////
-    public SurfaceView(Context context, AmosRenderer renderer, Amos amos)
+    public SurfaceView(final Context context, AmosRenderer renderer, Amos amos)
     {
         super(context);
 

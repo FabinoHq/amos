@@ -42,6 +42,11 @@
 package com.amos.Renderer;
 
 import android.opengl.GLES20;
+import android.opengl.GLUtils;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +59,67 @@ public class Texture
     ////////////////////////////////////////////////////////////////////////////
     public Texture()
     {
-
+        m_loaded = false;
+        m_tex = new int[1];
+        m_tex[0] = 0;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  load : Load texture                                                   //
+    //  return : True if texture is loaded, false otherwise                   //
+    ////////////////////////////////////////////////////////////////////////////
+    public boolean load(final Context context)
+    {
+        // Reset Texture
+        m_loaded = false;
+        m_tex[0] = 0;
+
+        // Create texture
+        GLES20.glGenTextures(1, m_tex, 0);
+        if (m_tex[0] == 0)
+        {
+            // Could not create texture
+            return false;
+        }
+
+        // Load image
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+
+        final Bitmap bitmap = BitmapFactory.decodeResource(
+            context.getResources(), 0, options
+        );
+
+        // Bind texture
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m_tex[0]);
+
+        // Upload texture to GPU
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+
+        // Set texture min and mag filters
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MIN_FILTER,
+            GLES20.GL_NEAREST
+        );
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MAG_FILTER,
+            GLES20.GL_NEAREST
+        );
+
+        // Unbind texture
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
+        // Texture successfully loaded
+        m_loaded = true;
+        return true;
+    }
+
+
+    // Texture loaded state
+    private boolean m_loaded;
+
+    // Texture handle
+    private int m_tex[];
 }
