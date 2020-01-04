@@ -162,7 +162,7 @@ public class VertexBuffer
         m_texCoordsOffset = verticesData.capacity()*4;
         GLES20.glBufferData(
             GLES20.GL_ARRAY_BUFFER,
-            m_texCoordsOffset+texCoordsData.capacity()*4,
+            m_texCoordsOffset+(texCoordsData.capacity()*4),
             null,
             GLES20.GL_STATIC_DRAW
         );
