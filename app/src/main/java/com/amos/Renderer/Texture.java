@@ -111,6 +111,9 @@ public class Texture
         // Unbind texture
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
+        // Clear bitmap data
+        bitmap.recycle();
+
         // Texture successfully loaded
         m_loaded = true;
         return true;
