@@ -98,6 +98,18 @@ public class Texture
         // Upload texture to GPU
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
 
+        // Set texture wrap mode
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_S,
+            GLES20.GL_CLAMP_TO_EDGE
+        );
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_T,
+            GLES20.GL_CLAMP_TO_EDGE
+        );
+
         // Set texture min and mag filters
         GLES20.glTexParameteri(
             GLES20.GL_TEXTURE_2D,

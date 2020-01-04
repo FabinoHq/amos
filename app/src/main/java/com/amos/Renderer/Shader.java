@@ -98,6 +98,7 @@ public class Shader
         m_fragmentShader = 0;
         m_shaderProgram = 0;
         m_vertexLocation = -1;
+        m_texCoordsLocation = -1;
         m_textureLocation = -1;
         m_projMatrixLocation = -1;
         m_viewMatrixLocation = -1;
@@ -121,6 +122,7 @@ public class Shader
         m_fragmentShader = 0;
         m_shaderProgram = 0;
         m_vertexLocation = -1;
+        m_texCoordsLocation = -1;
         m_textureLocation = -1;
         m_projMatrixLocation = -1;
         m_viewMatrixLocation = -1;
@@ -166,6 +168,13 @@ public class Shader
             "vertexPos"
         );
         if (m_vertexLocation == -1) { return false; }
+
+        // Get texture coords attribute location
+        m_texCoordsLocation = GLES20.glGetAttribLocation(
+            m_shaderProgram,
+            "vertexColor"
+        );
+        if (m_texCoordsLocation == -1) { return false; }
 
         // Get texture location
         m_textureLocation = GLES20.glGetUniformLocation(
@@ -241,6 +250,15 @@ public class Shader
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    //  getTexCoordsLocation : Get texture coordinates attribute location     //
+    //  return : Texture coordinates attribute location                       //
+    ////////////////////////////////////////////////////////////////////////////
+    public int getTexCoordsLocation()
+    {
+        return m_texCoordsLocation;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     //  sendProjectionMatrix : Send projection matrix to use with this shader //
     //  param projectionMatrix : 4x4 Projection matrix to use                 //
     ////////////////////////////////////////////////////////////////////////////
@@ -297,6 +315,7 @@ public class Shader
 
     // Shader attributes locations
     private int m_vertexLocation;
+    private int m_texCoordsLocation;
 
     // Shader uniforms locations
     private int m_textureLocation;

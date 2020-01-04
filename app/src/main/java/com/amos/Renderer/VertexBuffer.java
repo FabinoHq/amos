@@ -145,6 +145,12 @@ public class VertexBuffer
         ).asFloatBuffer();
         verticesData.put(m_verticesData).position(0);
 
+        // Prepare texcoords data
+        final FloatBuffer texCoordsData = ByteBuffer.allocateDirect(
+            m_texCoordsData.length*4).order(ByteOrder.nativeOrder()
+        ).asFloatBuffer();
+        texCoordsData.put(m_texCoordsData).position(0);
+
         // Prepare indices data
         final ShortBuffer indicesData = ByteBuffer.allocateDirect(
             m_indicesData.length*4).order(ByteOrder.nativeOrder()
@@ -154,13 +160,27 @@ public class VertexBuffer
         // Send data to GPU
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m_vertexBuffer[0]);
         m_texCoordsOffset = verticesData.capacity()*4;
-
-        // Send vertices data
         GLES20.glBufferData(
             GLES20.GL_ARRAY_BUFFER,
-            m_texCoordsOffset,
-            verticesData,
+            m_texCoordsOffset+texCoordsData.capacity()*4,
+            null,
             GLES20.GL_STATIC_DRAW
+        );
+
+        // Send vertices data
+        GLES20.glBufferSubData(
+            GLES20.GL_ARRAY_BUFFER,
+            0,
+            m_texCoordsOffset,
+            verticesData
+        );
+
+        // Send texcoords data
+        GLES20.glBufferSubData(
+            GLES20.GL_ARRAY_BUFFER,
+            m_texCoordsOffset,
+            texCoordsData.capacity()*4,
+            texCoordsData
         );
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
@@ -193,6 +213,14 @@ public class VertexBuffer
             GLES20.glEnableVertexAttribArray(vertexPosLocation);
             GLES20.glVertexAttribPointer(
                 vertexPosLocation, 2, GLES20.GL_FLOAT, false, 0, 0
+            );
+
+            // Enable texcoords array
+            int texCoordsLocation = shader.getTexCoordsLocation();
+            GLES20.glEnableVertexAttribArray(texCoordsLocation);
+            GLES20.glVertexAttribPointer(
+                texCoordsLocation, 2, GLES20.GL_FLOAT, false,
+                0, m_texCoordsOffset
             );
 
             // Draw triangles
