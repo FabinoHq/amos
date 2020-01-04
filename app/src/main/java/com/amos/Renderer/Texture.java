@@ -66,9 +66,11 @@ public class Texture
 
     ////////////////////////////////////////////////////////////////////////////
     //  load : Load texture                                                   //
+    //  param context : Main activity context                                 //
+    //  param image : Image resource id                                       //
     //  return : True if texture is loaded, false otherwise                   //
     ////////////////////////////////////////////////////////////////////////////
-    public boolean load(final Context context)
+    public boolean load(final Context context, final int image)
     {
         // Reset Texture
         m_loaded = false;
@@ -87,7 +89,7 @@ public class Texture
         options.inScaled = false;
 
         final Bitmap bitmap = BitmapFactory.decodeResource(
-            context.getResources(), 0, options
+            context.getResources(), image, options
         );
 
         // Bind texture
@@ -117,6 +119,28 @@ public class Texture
         // Texture successfully loaded
         m_loaded = true;
         return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  bind : Bind texture to renderer                                       //
+    ////////////////////////////////////////////////////////////////////////////
+    public void bind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m_tex[0]);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  unbind : Unbind texture                                               //
+    ////////////////////////////////////////////////////////////////////////////
+    public void unbind()
+    {
+        if (m_loaded)
+        {
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        }
     }
 
 

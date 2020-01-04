@@ -63,7 +63,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
 
         // Create Amos
-        m_amos = new Amos();
+        m_amos = new Amos(this);
 
         // Create surface view for rendering
         m_surfaceView = new SurfaceView(this, m_amos.getRenderer(), m_amos);

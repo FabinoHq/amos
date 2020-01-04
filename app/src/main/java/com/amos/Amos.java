@@ -41,6 +41,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.amos;
 
+import android.content.Context;
+
 import com.amos.Renderer.AmosRenderer;
 
 
@@ -51,10 +53,13 @@ public class Amos
 {
     ////////////////////////////////////////////////////////////////////////////
     //  Amos default constructor                                              //
+    //  param context : Main activity context                                 //
     ////////////////////////////////////////////////////////////////////////////
-    public Amos()
+    public Amos(final Context context)
     {
         m_loaded = false;
+        m_renderer = null;
+        m_context = context;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -101,6 +106,9 @@ public class Amos
 
     // Amos loaded state
     private boolean m_loaded;
+
+    // Amos context
+    private final Context m_context;
 
     // Amos Renderer
     private AmosRenderer m_renderer;
