@@ -51,3 +51,6 @@
 !app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
 !app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 !app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+!app/src/main/res/
+!app/src/main/res/drawable/
+!app/src/main/res/drawable/testsprite.png
