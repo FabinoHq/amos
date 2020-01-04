@@ -35,6 +35,7 @@
 !app/src/main/java/com/amos/Renderer/AmosRenderer.java
 !app/src/main/java/com/amos/Renderer/Shader.java
 !app/src/main/java/com/amos/Renderer/VertexBuffer.java
+!app/src/main/java/com/amos/Renderer/Texture.java
 
 #Resources files
 !app/src/main/res/drawable/ic_launcher_background.xml
